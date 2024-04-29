@@ -38,7 +38,7 @@ RUN chmod -R a+x node_modules
 RUN npm run build
 
 # production environment
-FROM ${IMAGE_REPOSITORY}/nginx:stable-alpine
+FROM ${IMAGE_REPOSITORY}${IMAGE_REPOSITORY_DIVISION}nginx:stable-alpine
 
 # install build
 COPY --from=build /app/build /usr/share/nginx/html
