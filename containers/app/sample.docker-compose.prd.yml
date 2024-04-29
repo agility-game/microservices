@@ -8,6 +8,7 @@ services:
       dockerfile: Dockerfile.prod
       args: # from env_file
         IMAGE_REPOSITORY: ${IMAGE_REPOSITORY}
+        IMAGE_REPOSITORY_DIVISION: ${IMAGE_REPOSITORY_DIVISION}
         PROXY_USER: ${PROXY_USER}
         PROXY_PASSWORD: ${PROXY_PASSWORD}
         PROXY_FQDN: ${PROXY_FQDN}
