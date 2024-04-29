@@ -1,7 +1,7 @@
 microservices
 # Microservices
 
-Based on "ABC" at https://www.abc.com/
+Based on "Installing and Using Docker on Debian 11: Step-by-Step Guide" at https://shape.host/resources/installing-and-using-docker-on-debian-11-step-by-step-guide
 
 In short, run like this:
 
