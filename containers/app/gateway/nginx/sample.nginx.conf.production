@@ -1,0 +1,74 @@
+# See https://popovserhii.com/how-to-forward-nginx-incoming-request-to-docker-container-port
+
+# http {
+#  include       /etc/nginx/mime.types;
+#  default_type  application/octet-stream;
+
+  server {
+    listen 80;
+    # listen  [::]:80; # causes an error when not supporting IPv6
+    # server_name agility-game-microservices.company.com;
+    # server_name  localhost; # causes an error when not supporting IPv6
+    server_name 127.0.0.1;
+
+    resolver 127.0.0.11;
+
+    add_header Access-Control-Allow-Origin *;
+
+    location / {
+      resolver 127.0.0.11 ipv6=off valid=30s;
+      set $empty "";
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_connect_timeout 300;
+      # Default is HTTP/1, keepalive is only enabled in HTTP/1.1
+      proxy_http_version 1.1;
+      proxy_set_header Connection "";
+      chunked_transfer_encoding off;
+      #  root   /usr/share/nginx/html;
+      #  index  index.html index.htm;
+      #  try_files $uri $uri/ /index.html;
+      # Re-route to web ui:
+      proxy_pass http://agility-game-microservices-webui-prod:3001$empty;
+    }
+
+    location /status {
+      stub_status on;
+      access_log off;
+      allow all;
+    }
+
+    location /web {
+      resolver 127.0.0.11 ipv6=off valid=30s;
+      set $empty "";
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme; 
+      proxy_pass http://agility-game-microservices-webui-prod:3001$empty;         
+    }
+
+  # For connecting with containers on other docker stacks on the same host, 
+  # see https://stackoverflow.com/questions/45255066/create-networks-automatically-in-docker-compose
+  # Note that for **external** containers, the path needs to end with a slash (/)!
+
+    location /company-purpose/ {
+      resolver 127.0.0.11 ipv6=off valid=30s; 
+      set $empty "";
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_pass http://agility-game-company-purpose-prod:8091/$empty; # End with a slash
+    } 
+
+    error_page   500 502 503 504  /50x.html;
+
+    location = /50x.html {
+      root   /usr/share/nginx/html;
+    }
+
+  }
+#}  
