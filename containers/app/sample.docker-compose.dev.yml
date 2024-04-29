@@ -60,7 +60,7 @@ services:
       - gateway-dev
     external_links:
       - agility-game-microservices-webui-dev
-      - agility-game-company-vision-dev
+      - agility-game-company-purpose-dev
 
 # see https://stackoverflow.com/questions/45255066/create-networks-automatically-in-docker-compose
 networks:
