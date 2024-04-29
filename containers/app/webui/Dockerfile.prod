@@ -22,6 +22,9 @@ COPY package.json ./
 COPY package-lock.json ./
 COPY .npmrc ./
 
+# cross-env requires global install
+RUN npm install cross-env -g --useconfig npmrc
+
 RUN npm ci --silent --useconfig npmrc
 # RUN npm install react-scripts@3.4.1 -g --silent --useconfig npmrc
 
