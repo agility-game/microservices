@@ -1,6 +1,6 @@
 ARG IMAGE_REPOSITORY
 # development environment: pull official base image for node development
-FROM ${IMAGE_REPOSITORY}/node:13.12.0-alpine as build
+FROM ${IMAGE_REPOSITORY}${IMAGE_REPOSITORY_DIVISION}node:13.12.0-alpine as build
 
 # See https://stackoverflow.com/questions/29261811/use-docker-compose-env-variable-in-dockerbuild-file
 # ARG PROXY_USER
