@@ -21,8 +21,8 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY package-lock.json ./
 COPY .npmrc ./
-RUN npm ci --silent --useconfig npmrc
-# RUN npm install react-scripts@3.4.1 -g --silent --useconfig npmrc
+RUN npm ci --silent --userconfig .npmrc
+# RUN npm install react-scripts@3.4.1 --global --silent --userconfig .npmrc
 
 # add app
 COPY . ./
